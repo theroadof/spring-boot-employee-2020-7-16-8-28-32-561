@@ -5,13 +5,15 @@ public class Employee {
     private String gender;
 
     public Employee(int id) {
-        this.id =id;
+        this.id = id;
     }
 
-    public Employee(int i, String gender) {
+    public Employee(int id, String gender) {
         this.id = id;
         this.gender = gender;
     }
+
+    public Employee(){}
 
     public int getId() {
         return id;
