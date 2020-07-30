@@ -42,5 +42,7 @@ public class CompanyServiceTest {
         assertEquals(2,companies.get(1).getId());
     }
 
-
+    private List<Company> getAllCompanies(){
+        return null;
+    }
 }
