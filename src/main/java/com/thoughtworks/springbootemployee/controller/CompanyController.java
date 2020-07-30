@@ -14,14 +14,6 @@ import java.util.stream.Stream;
 @RequestMapping("/companies")
 public class CompanyController {
 
-    @GetMapping()
-    public List<Company> getAllCompanies() {
-        List<Company> companies = new ArrayList<>();
-        companies.add(new Company(1, "alibaba"));
-        companies.add(new Company(2, "tencent"));
-        return companies;
-    }
-
     @GetMapping("/{id}")
     public Company getBy(@PathVariable int id) {
         return new Company(id, "alibaba");
@@ -34,17 +26,21 @@ public class CompanyController {
         return company.getEmployees();
     }
 
-    @GetMapping("/page/{page}/page-size/{pageSize}")
-    public List<Company> getSpecificCompanies(@PathVariable String page, @PathVariable String pageSize) {
+    @GetMapping()
+    public List<Company> getSpecificCompanies(@PathVariable Integer page, @PathVariable Integer pageSize) {
+        if(page==null || pageSize == null){
+            List<Company> companies = new ArrayList<>();
+            companies.add(new Company(1, "alibaba"));
+            companies.add(new Company(2, "tencent"));
+            return companies;
+        }
         List<Company> companies = new ArrayList<>();
-        int pageNumber = Integer.valueOf(page);
-        int pageSizeNumber = Integer.valueOf(pageSize);
         companies.addAll(Arrays.asList(new Company(1, "1"),
                 new Company(2, "2"), new Company(3, "3"),
                 new Company(4, "4"), new Company(5, "5"),
                 new Company(6, "6")));
-        return companies.stream().filter(company -> (companies.indexOf(company) < pageSizeNumber*pageNumber &&
-                companies.indexOf(company)>=(pageNumber-1)*pageSizeNumber)).collect(Collectors.toList());
+        return companies.stream().filter(company -> (companies.indexOf(company) < pageSize*page &&
+                companies.indexOf(company)>=(page-1)*pageSize)).collect(Collectors.toList());
     }
 
     @PostMapping()

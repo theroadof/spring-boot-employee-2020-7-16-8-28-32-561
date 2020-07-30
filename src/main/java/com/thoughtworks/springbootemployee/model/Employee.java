@@ -1,5 +1,8 @@
 package com.thoughtworks.springbootemployee.model;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Employee {
     private int id;
     private String gender;

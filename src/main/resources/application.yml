@@ -3,3 +3,13 @@ server:
   port: 8040
   tomcat:
     uri-encoding: utf-8
+
+spring:
+  datasource:
+    url: jdbc:h2:file:./h2/testdb
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
