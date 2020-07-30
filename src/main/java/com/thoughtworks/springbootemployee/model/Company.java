@@ -1,14 +1,18 @@
 package com.thoughtworks.springbootemployee.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private int employeeNumber;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "companyId")
     private List<Employee> employees;
 
     public Company(int id, String name, List<Employee> employees) {
@@ -23,6 +27,14 @@ public class Company {
         this.name = name;
         employees = new ArrayList<>();
     }
+
+    public Company(int id, String name, int employeeNumber, List<Employee> employees) {
+        this.id = id;
+        this.name = name;
+        this.employeeNumber = employeeNumber;
+        this.employees = employees;
+    }
+
     public Company(){}
 
     public List<Employee> getEmployees() {
@@ -55,5 +67,25 @@ public class Company {
 
     public void setEmployeeNumber(int employeeNumber) {
         this.employeeNumber = employeeNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Company company = (Company) o;
+        return id == company.id &&
+                employeeNumber == company.employeeNumber &&
+                name.equals(company.name) &&
+                employees.equals(company.employees);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, employeeNumber, employees);
     }
 }

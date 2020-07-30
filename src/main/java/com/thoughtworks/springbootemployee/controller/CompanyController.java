@@ -2,6 +2,8 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.service.CompanyService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,6 +15,8 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
+
+    private CompanyService companyService;
 
     @GetMapping("/{id}")
     public Company getBy(@PathVariable int id) {
@@ -27,12 +31,10 @@ public class CompanyController {
     }
 
     @GetMapping()
-    public List<Company> getSpecificCompanies(@PathVariable Integer page, @PathVariable Integer pageSize) {
+    @ResponseStatus(HttpStatus.OK)
+    public List<Company> getCompanies(@PathVariable Integer page, @PathVariable Integer pageSize) {
         if(page==null || pageSize == null){
-            List<Company> companies = new ArrayList<>();
-            companies.add(new Company(1, "alibaba"));
-            companies.add(new Company(2, "tencent"));
-            return companies;
+            return companyService.getCompanies();
         }
         List<Company> companies = new ArrayList<>();
         companies.addAll(Arrays.asList(new Company(1, "1"),
